@@ -1,0 +1,58 @@
+{{ if de }}
+    Die nachfolgende Tabelle fasst die Ergebnisse Ihrer Entscheidungen in den
+    {{ C.NUM_ROUNDS }} gespielten Runden zusammen.
+{{ else }}
+    La tabla de abajo muestra el resumen de los resultados de tus decisiones en las {{ C.NUM_ROUNDS }} rondas jugadas.
+{{ endif }}
+</div>
+
+    <div class="card">
+        <div class="card-header">
+            <b>{{ Lexicon.round_history }}</b>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>{{ Lexicon.round_number }}</th>
+                    <th>{{ Lexicon.boxes_collected }}</th>
+                    <th>{{ Lexicon.bomb_collected }}</th>
+                    <th>{{ Lexicon.round_payoff }}</th>
+                </tr>
+                {{ for p in player_in_all_rounds }}
+                <tr>
+                    <td>{{ p.round_number }}</td>
+                    <td>{{ p.boxes_collected }}</td>
+                    <td>
+                        {{ if p.bomb }}
+                            {{ Lexicon.yes }}
+                        {{ else }}
+                            {{ Lexicon.no }}
+                        {{ endif }}
+                    </td>
+                    <td>{{ p.round_result }}</td>
+                </tr>
+                {{ endfor }}
+            </table>
+        </div>
+    </div>
+
+    <div class="card card-info">
+    {{ if C.RANDOM_PAYOFF }}
+        {{ if de }}
+            Für Ihre Auszahlung wurde Runde Nr. {{ round_to_pay }} zufällig ausgewählt.<br/>
+            Entsprechend beträgt ihre Auszahlung aus dieser Aufgabe {{ total_payoff }}.
+        {{ else }}
+            Para el pago, la ronda número {{ round_to_pay }} fue seleccionada aleatoriamente.<br/>
+            Por ello, tu pago final de este experimento será de {{ total_payoff }}.
+        {{ endif }}
+    {{ else }}
+        {{ if de }}
+            Ihre Auszahlung wird durch die Summe aller gesammelten Beträge in allen
+            Runden bestimmt. Dementsprechend beträgt Ihre Auszahlung aus dieser Aufgabe {{ total_payoff }}.
+        {{ else }}
+            Tu pago final es determinado por la suma de todos tus resultados por ronda. 
+            Ello hace que tu pago final en este experimento sea de {{ total_payoff }}.
+        {{ endif }}
+    {{ endif }}
+    </div>
